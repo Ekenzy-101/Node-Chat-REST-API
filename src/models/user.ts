@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import mongoose, { Document, Schema } from "mongoose";
+import { Document, Schema } from "mongoose";
 import { APP_ACCESS_SECRET } from "../config";
 
 export interface IUser extends Document {
@@ -10,7 +10,7 @@ export interface IUser extends Document {
   generateAccessToken: (expiresIn?: string) => string;
 }
 
-const userSchema: Schema = new Schema(
+export const userSchema: Schema = new Schema(
   {
     image: {
       type: String,
@@ -33,18 +33,15 @@ const userSchema: Schema = new Schema(
 );
 
 userSchema.methods.generateAccessToken = function (expiresIn = "1 day") {
-  const { email, _id } = this as IUser;
+  const { email, _id, name } = this as IUser;
 
   return jwt.sign(
     {
       email,
       _id,
+      name,
     },
     APP_ACCESS_SECRET,
     { expiresIn }
   );
 };
-
-const User = mongoose.model<IUser>("User", userSchema);
-
-export default User;
