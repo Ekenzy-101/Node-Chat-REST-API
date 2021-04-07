@@ -3,9 +3,10 @@ import { Document, Schema } from "mongoose";
 export interface IMessage extends Document {
   image?: string;
   roomId: string;
-  status: "active" | "deleted" | "seen";
+  status: "active" | "deleted";
   text: string;
   userId: string;
+  seenBy: string[];
 }
 
 export const messageSchema: Schema = new Schema(
@@ -29,6 +30,12 @@ export const messageSchema: Schema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "User",
     },
+    seenBy: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "User",
+      },
+    ],
   },
   {
     timestamps: true,

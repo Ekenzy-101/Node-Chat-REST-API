@@ -2,7 +2,7 @@ import { Request } from "express";
 import { validationResult } from "express-validator";
 
 export const getValidationErrors = (req: Request) => {
-  const customErrors = {};
+  const customErrors: Record<string, any> = {};
 
   const result = validationResult(req);
   const errors = result.array();

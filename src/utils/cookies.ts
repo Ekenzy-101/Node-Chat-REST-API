@@ -9,3 +9,12 @@ export const cookieOptions = {
   sameSite: IS_PRODUCTION ? ("none" as const) : ("lax" as const),
   maxAge: MILLISECONDS_IN_ONE_DAY,
 };
+
+export const parseCookies = (value: string) => {
+  return Object.fromEntries(
+    value?.split(/; */).map((cookieString) => {
+      const [key, ...v] = cookieString.split("=");
+      return [key, decodeURIComponent(v.join("="))];
+    })
+  );
+};

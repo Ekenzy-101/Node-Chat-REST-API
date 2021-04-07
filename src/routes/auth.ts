@@ -2,7 +2,7 @@ import bcrypt from "bcrypt";
 import { Request, Response, Router } from "express";
 import _ from "lodash";
 
-import User from "../models/user";
+import { User } from "../models";
 import { validateLogin, validateRegister } from "../middlewares/validation";
 import { cookieOptions } from "../utils/cookies";
 import { getValidationErrors } from "../utils/validation";

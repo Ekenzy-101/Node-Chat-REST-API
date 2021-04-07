@@ -1,7 +1,7 @@
 import "dotenv/config";
 import express from "express";
 import http from "http";
-import { Server, Socket } from "socket.io";
+import { Server } from "socket.io";
 
 import { connectToDatabase } from "./app/database";
 import { regiterRoutes } from "./app/route";
@@ -9,6 +9,8 @@ import {
   registerAfterRouteMiddlewares,
   registerBeforeRouteMiddlewares,
 } from "./app/middleware";
+import { CLIENT_ORIGIN } from "./config";
+import { listenForWebSocketConnection } from "./app/websocket";
 
 const start = async () => {
   try {
@@ -22,11 +24,12 @@ const start = async () => {
 
     const server = http.createServer(app);
 
-    const io = new Server(server, { cookie: true });
-
-    io.on("connection", (socket: Socket) => {
-      socket;
+    const io = new Server(server, {
+      cookie: true,
+      cors: { origin: CLIENT_ORIGIN, credentials: true },
     });
+
+    listenForWebSocketConnection(io);
 
     server.listen(port, () => console.log(`Running on port ${port}`));
   } catch (error) {
