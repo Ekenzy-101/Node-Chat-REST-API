@@ -29,6 +29,8 @@ const start = async () => {
       cors: { origin: CLIENT_ORIGIN, credentials: true },
     });
 
+    app.set("io", io);
+
     listenForWebSocketConnection(io);
 
     server.listen(port, () => console.log(`Running on port ${port}`));

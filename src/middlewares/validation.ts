@@ -23,3 +23,7 @@ export const validateRegister = [
   ...validateLogin,
   body("name").notEmpty().withMessage("Name is required"),
 ];
+
+export const validateUserId = [
+  body("userId").isMongoId().withMessage("Invalid User ID"),
+];
